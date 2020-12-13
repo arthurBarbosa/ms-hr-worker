@@ -2,12 +2,14 @@ package com.abcode.hrpayroll;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableFeignClients
 @SpringBootApplication
-public class HrWorker1Application {
+public class HrPayrollApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HrWorker1Application.class, args);
+		SpringApplication.run(HrPayrollApplication.class, args);
 	}
 
 }
