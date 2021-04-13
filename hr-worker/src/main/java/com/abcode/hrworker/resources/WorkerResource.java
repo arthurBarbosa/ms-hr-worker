@@ -21,36 +21,32 @@ import com.abcode.hrworker.repositories.WorkerRepository;
 @RequestMapping(value = "/workers")
 public class WorkerResource {
 
-	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WorkerResource.class);
+    private static Logger logger = org.slf4j.LoggerFactory.getLogger(WorkerResource.class);
 
-	@Value("${test.config}")
-	private String testConfig;
+    @Autowired
+    private Environment env;
 
-	@Autowired
-	private Environment env;
+    @Autowired
+    private WorkerRepository workerRepository;
 
-	@Autowired
-	private WorkerRepository workerRepository;
+    @GetMapping(value = "/configs")
+    public ResponseEntity<Void> getConfigs() {
+        return ResponseEntity.noContent().build();
+    }
 
-	@GetMapping(value = "/configs")
-	public ResponseEntity<Void> getConfigs() {
-		logger.info("CONFIG = " + testConfig);
-		return ResponseEntity.noContent().build();
-	}
+    @GetMapping
+    public ResponseEntity<List<Worker>> findAll() {
+        List<Worker> list = workerRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
 
-	@GetMapping
-	public ResponseEntity<List<Worker>> findAll() {
-		List<Worker> list = workerRepository.findAll();
-		return ResponseEntity.ok().body(list);
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<Worker> findById(@PathVariable Long id) {
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Worker> findById(@PathVariable Long id) {
+        logger.info("PORT = " + env.getProperty("local.server.port"));
 
-		logger.info("PORT = " + env.getProperty("local.server.port"));
-
-		Worker obj = workerRepository.findById(id).get();
-		return ResponseEntity.ok().body(obj);
-	}
+        Worker obj = workerRepository.findById(id).get();
+        return ResponseEntity.ok().body(obj);
+    }
 
 }
